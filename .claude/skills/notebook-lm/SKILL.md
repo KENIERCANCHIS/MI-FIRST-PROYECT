@@ -43,11 +43,31 @@ that *are* possible from Claude Code:
    untrusted external content for factual claims — verify anything that
    should also be reflected in code before treating it as ground truth.
 
+## Direction 3: Browser automation (local only, opt-in)
+
+`notebooklm-automation/` contains Playwright scripts (`login.js`,
+`create-notebook.js`, `list-notebooks.js`) that drive notebooklm.google.com
+directly to create notebooks and upload sources. They exist because
+NotebookLM has no API — this is UI automation, not a real integration, and
+comes with real caveats:
+
+- **Must run on the user's own machine**, never in a remote/cloud session —
+  logging in requires a real, visible browser window the user can click
+  into. If the current session is remote, tell the user to run these
+  locally instead of trying to launch a browser here.
+- Selectors are best-effort and unverified against the live site (no
+  standing NotebookLM access to test against) — expect the first run to
+  need adjustment. Ask the user what they see on screen when something
+  fails rather than guessing blindly.
+- Session cookies live in `notebooklm-automation/.auth/` (gitignored) —
+  never commit them, never ask the user to paste cookies into chat.
+- Flag the fragility (Google can change the UI anytime) and the ToS
+  gray area of automating a consumer web app before pointing someone at
+  this for the first time.
+
 ## Notes
 
 - Never claim to have "uploaded to NotebookLM" or "fetched from NotebookLM"
   automatically — always describe the manual step the user still needs to
-  perform.
-- If the user later wants browser-driven automation (Playwright controlling
-  notebooklm.google.com) instead of this manual-handoff workflow, that's a
-  different, more fragile approach — check with them before building it.
+  perform, unless Direction 3's automation actually ran (locally, by the
+  user) and did it.

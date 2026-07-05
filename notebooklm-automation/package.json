@@ -1,0 +1,13 @@
+{
+  "name": "notebooklm-automation",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "login": "node login.js",
+    "create-notebook": "node create-notebook.js",
+    "list-notebooks": "node list-notebooks.js"
+  },
+  "dependencies": {
+    "playwright": "^1.48.0"
+  }
+}
